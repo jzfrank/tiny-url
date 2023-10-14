@@ -6,15 +6,21 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "mysql"
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model User {
+    id       String @id @default(uuid())
+    email    String @unique
+    password String
+    Url      Url[]
+}
 
-    @@index([name])
+model Url {
+    id           String @id @default(uuid())
+    url          String
+    shortenedUrl String @unique
+    userId       String
+    user         User   @relation(fields: [userId], references: [id])
 }
