@@ -18,9 +18,9 @@ model User {
 }
 
 model Url {
-    id           String @id @default(uuid())
-    url          String
-    shortenedUrl String @unique
-    userId       String
-    user         User   @relation(fields: [userId], references: [id])
+    id           String  @id @default(uuid())
+    url          String  @unique
+    shortenedUrl String  @unique
+    userId       String?
+    user         User?   @relation(fields: [userId], references: [id])
 }
