@@ -2,14 +2,16 @@ import { Button, Text, Title } from "@tremor/react"
 import { useState } from "react"
 import { toast } from "react-toastify"
 import { EitherType } from "~/common/Either"
+import { type SetUser } from "~/pages/_app"
 import { api } from "~/utils/api"
 
 type Props = {
+    setUser: SetUser
     setHasAccount: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const SignUp = (props: Props) => {
-    const { setHasAccount } = props
+    const { setHasAccount, setUser } = props
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -19,6 +21,11 @@ const SignUp = (props: Props) => {
             switch (data.type) {
                 case EitherType.ok:
                     toast.success("Successfully signed up")
+                    setUser({
+                        isLogin: true,
+                        email: data.ok.user.email,
+                        name: data.ok.user.name,
+                    })
                     return data.ok
                 case EitherType.bad:
                     toast.error(data.bad.message)

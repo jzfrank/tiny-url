@@ -6,13 +6,15 @@ import "~/styles/globals.css"
 import Layout from "~/components/Layout"
 import { createContext, useState } from "react"
 
-type User = {
+export type User = {
     isLogin: boolean
     email: string
     name: string
 }
 
-const DEFAULT_USER: User = {
+export type SetUser = React.Dispatch<React.SetStateAction<User>>
+
+export const DEFAULT_USER: User = {
     isLogin: false,
     email: "",
     name: "",
@@ -20,7 +22,7 @@ const DEFAULT_USER: User = {
 
 type UserContextType = {
     user: User
-    setUser: React.Dispatch<React.SetStateAction<User>>
+    setUser: SetUser
 }
 
 const DEFAULT_USER_CONTEXT: UserContextType = {
