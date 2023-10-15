@@ -8,16 +8,17 @@ type Props = {
     setHasAccount: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SignIn = (props: Props) => {
+const SignUp = (props: Props) => {
     const { setHasAccount } = props
+    const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-    const signIn = api.v1Router.signIn.useMutation({
+    const signUp = api.v1Router.signUp.useMutation({
         onSuccess(data) {
             switch (data.type) {
                 case EitherType.ok:
-                    toast.success("Successfully logged in")
+                    toast.success("Successfully signed up")
                     return data.ok
                 case EitherType.bad:
                     toast.error(data.bad.message)
@@ -29,8 +30,8 @@ const SignIn = (props: Props) => {
         },
     })
 
-    const signInHandler = () => {
-        signIn.mutate({ email, password })
+    const signUpHandler = () => {
+        signUp.mutate({ username, email, password })
     }
 
     return (
@@ -39,9 +40,27 @@ const SignIn = (props: Props) => {
                 <div className="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0">
                     <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
-                            Sign in to your account
+                            Sign up
                         </h1>
                         <div className="space-y-4 md:space-y-6">
+                            <div>
+                                <label
+                                    htmlFor="username"
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                >
+                                    User Name
+                                </label>
+                                <input
+                                    name="username"
+                                    id="username"
+                                    className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                                    placeholder="username"
+                                    value={username}
+                                    onChange={(e) =>
+                                        setUsername(e.target.value)
+                                    }
+                                />
+                            </div>
                             <div>
                                 <label
                                     htmlFor="email"
@@ -78,30 +97,22 @@ const SignIn = (props: Props) => {
                                     }
                                 />
                             </div>
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-start"></div>
-                                <a
-                                    href="#"
-                                    className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline"
-                                >
-                                    Forgot password?
-                                </a>
-                            </div>
+
                             <div className="flex justify-center">
                                 <Button
                                     className="w-64"
-                                    onClick={signInHandler}
+                                    onClick={signUpHandler}
                                 >
-                                    Sign in
+                                    Sign up
                                 </Button>
                             </div>
                             <div className="flex gap-2 text-sm font-light text-gray-500 dark:text-gray-400">
-                                <span>Don’t have an account yet?</span>
+                                <span>Already have an account</span>
                                 <button
-                                    className="dark:text-primary-500 font-medium text-blue-400 hover:cursor-pointer"
-                                    onClick={() => setHasAccount(false)}
+                                    className="dark:text-primary-500 font-medium text-blue-400 hover:underline"
+                                    onClick={() => setHasAccount(true)}
                                 >
-                                    Sign up
+                                    Sign in
                                 </button>
                             </div>
                         </div>
@@ -112,4 +123,4 @@ const SignIn = (props: Props) => {
     )
 }
 
-export default SignIn
+export default SignUp

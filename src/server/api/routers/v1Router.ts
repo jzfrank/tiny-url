@@ -9,7 +9,14 @@ import {
     urlExistsSchema,
     urlExistsUseCase,
 } from "~/server/useCase/url/urlExistsUseCase"
-import { LoginSchema, loginUseCase } from "~/server/useCase/user/loginUseCase"
+import {
+    signInSchema,
+    signInUseCase,
+} from "~/server/useCase/user/signInUseCase"
+import {
+    signUpSchema,
+    signUpUseCase,
+} from "~/server/useCase/user/signUpUseCase"
 
 export const v1Router = createTRPCRouter({
     health: publicProcedure.input(z.string().optional()).query(() => {
@@ -36,9 +43,15 @@ export const v1Router = createTRPCRouter({
             return await createUrlUseCase.implement(input)
         }),
 
-    login: publicProcedure
-        .input(LoginSchema)
+    signIn: publicProcedure
+        .input(signInSchema)
         .mutation(async ({ ctx, input }) => {
-            return await loginUseCase.implement(input)
+            return await signInUseCase.implement(input)
+        }),
+
+    signUp: publicProcedure
+        .input(signUpSchema)
+        .mutation(async ({ ctx, input }) => {
+            return await signUpUseCase.implement(input)
         }),
 })

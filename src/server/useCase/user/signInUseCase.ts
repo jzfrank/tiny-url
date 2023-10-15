@@ -4,25 +4,25 @@ import { Either, EitherType } from "~/common/Either"
 import { prisma } from "~/server/db"
 import { User } from "@prisma/client"
 
-export const LoginSchema = z.object({
+export const signInSchema = z.object({
     email: z.string().email(),
     password: z.string().min(6),
 })
 
-type LoginRequest = z.infer<typeof LoginSchema>
+type SignInRequest = z.infer<typeof signInSchema>
 
-type LoginResponse = {
+type SignInResponse = {
     user: User
 }
 
-class LoginUseCase extends BaseUseCase<
-    LoginRequest,
-    LoginResponse,
+class SignInUseCase extends BaseUseCase<
+    SignInRequest,
+    SignInResponse,
     BaseErrors
 > {
     async implement(
-        props: LoginRequest
-    ): Promise<Either<ApiErrorResponse<BaseErrors>, LoginResponse>> {
+        props: SignInRequest
+    ): Promise<Either<ApiErrorResponse<BaseErrors>, SignInResponse>> {
         const user = await prisma.user.findUnique({
             where: {
                 email: props.email,
@@ -56,4 +56,4 @@ class LoginUseCase extends BaseUseCase<
     }
 }
 
-export const loginUseCase = new LoginUseCase()
+export const signInUseCase = new SignInUseCase()

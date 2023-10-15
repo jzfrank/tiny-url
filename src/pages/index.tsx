@@ -8,6 +8,7 @@ import { toast } from "react-toastify"
 import { urlIsValid } from "~/common/utils"
 import { UserContext } from "./_app"
 import SignIn from "~/components/SignIn"
+import SignInManage from "~/components/SignInManage"
 
 export default function Home() {
     const { user, setUser } = useContext(UserContext)
@@ -52,7 +53,7 @@ export default function Home() {
 
     return (
         <>
-            <SignIn />
+            <SignInManage />
             <section className="bg-gray-50 dark:bg-gray-900">
                 <div className="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
                     <Title className="mb-5 text-lg font-bold">
