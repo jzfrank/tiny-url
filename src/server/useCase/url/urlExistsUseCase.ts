@@ -8,7 +8,10 @@ export const urlExistsSchema = z.object({
 })
 
 type UrlExistsRequest = z.infer<typeof urlExistsSchema>
-type UrlExistsResponse = boolean
+type UrlExistsResponse = {
+    exists: boolean
+    shortenedId: string
+}
 
 class UrlExistsUseCase extends BaseUseCase<
     UrlExistsRequest,
@@ -17,7 +20,7 @@ class UrlExistsUseCase extends BaseUseCase<
 > {
     async implement(
         props: UrlExistsRequest
-    ): Promise<Either<ApiErrorResponse<BaseErrors>, boolean>> {
+    ): Promise<Either<ApiErrorResponse<BaseErrors>, UrlExistsResponse>> {
         const { url: inputUrl } = props
         const url = await prisma.url.findUnique({
             where: {
@@ -28,14 +31,17 @@ class UrlExistsUseCase extends BaseUseCase<
         if (url) {
             return {
                 type: EitherType.ok,
-                ok: true,
+                ok: {
+                    exists: true,
+                    shortenedId: url.shortenedUrl,
+                },
             }
         }
         return {
-            type: EitherType.bad,
-            bad: {
-                type: "Not found",
-                message: `Url ${inputUrl} not found`,
+            type: EitherType.ok,
+            ok: {
+                exists: false,
+                shortenedId: "",
             },
         }
     }

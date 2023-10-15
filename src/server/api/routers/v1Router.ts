@@ -22,7 +22,13 @@ export const v1Router = createTRPCRouter({
         .query(async ({ ctx, input }) => {
             return await urlExistsUseCase.implement(input)
         }),
-        
+
+    urlExistsMutation: publicProcedure
+        .input(urlExistsSchema)
+        .mutation(async ({ ctx, input }) => {
+            return await urlExistsUseCase.implement(input)
+        }),
+
     createUrl: publicProcedure
         .input(createUrlSchema)
         .mutation(async ({ ctx, input }) => {
