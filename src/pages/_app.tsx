@@ -20,7 +20,7 @@ export const DEFAULT_USER: User = {
     name: "",
 }
 
-type UserContextType = {
+export type UserContextType = {
     user: User
     setUser: SetUser
 }
