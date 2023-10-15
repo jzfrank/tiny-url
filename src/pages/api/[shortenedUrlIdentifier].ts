@@ -28,6 +28,10 @@ const RediectHandler: NextApiHandler = async (req, res) => {
     if (!url) {
         return res.redirect(env.NEXT_PUBLIC_BASE_URL)
     } else {
+        // Test if url starts with http:// or https://
+        if (!/^https?:\/\//i.test(url.url)) {
+            return res.redirect("http://" + url.url)
+        }
         return res.redirect(url.url)
     }
 }
