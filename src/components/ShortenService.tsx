@@ -6,7 +6,6 @@ import { EitherType } from "~/common/Either"
 import { urlIsValid } from "~/common/utils"
 import { env } from "~/env.mjs"
 import { api } from "~/utils/api"
-import { type UserContextType } from "../pages/_app"
 
 const ShortenService = () => {
     const router = useRouter()
