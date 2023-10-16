@@ -43,7 +43,9 @@ const ShortenService = () => {
     }
 
     const shortendUrl = useMemo(
-        () => new URL(shortenedUrlIdentifier, env.NEXT_PUBLIC_BASE_URL).href,
+        () =>
+            new URL(`api/${shortenedUrlIdentifier}`, env.NEXT_PUBLIC_BASE_URL)
+                .href,
         [shortenedUrlIdentifier]
     )
 
