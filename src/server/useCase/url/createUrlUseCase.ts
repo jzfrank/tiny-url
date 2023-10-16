@@ -37,7 +37,7 @@ class CreateUrlUseCase extends BaseUseCase<
                 },
             }
         }
-        const oldUrl = await prisma.url.findUnique({
+        const oldUrl = await prisma.url.findFirst({
             where: {
                 url: fromUrl,
             },

@@ -22,12 +22,11 @@ class UrlExistsUseCase extends BaseUseCase<
         props: UrlExistsRequest
     ): Promise<Either<ApiErrorResponse<BaseErrors>, UrlExistsResponse>> {
         const { url: inputUrl } = props
-        const url = await prisma.url.findUnique({
+        const url = await prisma.url.findFirst({
             where: {
                 url: inputUrl,
             },
         })
-        console.log({ url, inputUrl })
         if (url) {
             return {
                 type: EitherType.ok,
@@ -36,13 +35,14 @@ class UrlExistsUseCase extends BaseUseCase<
                     shortenedId: url.shortenedUrl,
                 },
             }
-        }
-        return {
-            type: EitherType.ok,
-            ok: {
-                exists: false,
-                shortenedId: "",
-            },
+        } else {
+            return {
+                type: EitherType.ok,
+                ok: {
+                    exists: false,
+                    shortenedId: "",
+                },
+            }
         }
     }
 }

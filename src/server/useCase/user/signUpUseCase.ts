@@ -1,7 +1,7 @@
 import { z } from "zod"
-import { ApiErrorResponse, BaseErrors, BaseUseCase } from "../common"
-import { User } from "@prisma/client"
-import { Either, EitherType } from "~/common/Either"
+import { type ApiErrorResponse, type BaseErrors, BaseUseCase } from "../common"
+import { type User } from "@prisma/client"
+import { type Either, EitherType } from "~/common/Either"
 import { prisma } from "~/server/db"
 
 export const signUpSchema = z.object({

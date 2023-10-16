@@ -1,9 +1,7 @@
 import { type NextApiHandler } from "next"
-import { useRouter } from "next/router"
 import { z } from "zod"
 import { env } from "~/env.mjs"
 import { prisma } from "~/server/db"
-import { api } from "~/utils/api"
 
 const querySchema = z.object({
     shortenedUrlIdentifier: z.string(),
