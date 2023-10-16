@@ -21,7 +21,7 @@ model User {
 
 model Url {
     id           String  @id @default(uuid())
-    url          String  @unique
+    url          String  @db.LongText
     shortenedUrl String  @unique
     userId       String?
     user         User?   @relation(fields: [userId], references: [id])
