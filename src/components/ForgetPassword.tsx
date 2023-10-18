@@ -1,33 +1,28 @@
-import { Button, Text, Title } from "@tremor/react"
+import { Button, Subtitle, Text } from "@tremor/react"
 import { useState } from "react"
 import { toast } from "react-toastify"
 import { EitherType } from "~/common/Either"
-import { type SetUser } from "~/pages/_app"
 import { api } from "~/utils/api"
 
 type Props = {
-    setUser: SetUser
-    setHasAccount: React.Dispatch<React.SetStateAction<boolean>>
     setForgetPassword: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SignIn = (props: Props) => {
-    const { setHasAccount, setUser, setForgetPassword } = props
+const ForgetPassword = (props: Props) => {
+    const { setForgetPassword } = props
     const [email, setEmail] = useState("")
+    const [name, setName] = useState("")
     const [password, setPassword] = useState("")
 
-    const signIn = api.v1Router.signIn.useMutation({
+    const findPassword = api.v1Router.findPassword.useMutation({
         onSuccess(data) {
             switch (data.type) {
                 case EitherType.ok:
-                    toast.success("Successfully logged in")
-                    setUser({
-                        isLogin: true,
-                        email: data.ok.user.email,
-                        name: data.ok.user.name,
-                    })
+                    setPassword(data.ok.password)
+                    toast.success("Found password!")
                     return data.ok
                 case EitherType.bad:
+                    setPassword("")
                     toast.error(data.bad.message)
                     return false
             }
@@ -37,8 +32,8 @@ const SignIn = (props: Props) => {
         },
     })
 
-    const signInHandler = () => {
-        signIn.mutate({ email, password })
+    const findPasswordHandler = () => {
+        findPassword.mutate({ email, name })
     }
 
     return (
@@ -46,7 +41,7 @@ const SignIn = (props: Props) => {
             <div className="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0">
                 <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
                     <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
-                        Sign in to your account
+                        Find your password
                     </h1>
                     <div className="space-y-4 md:space-y-6">
                         <div>
@@ -66,46 +61,45 @@ const SignIn = (props: Props) => {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
+
                         <div>
                             <label
-                                htmlFor="password"
+                                htmlFor="name"
                                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                             >
-                                Password
+                                Your name
                             </label>
                             <input
-                                type="password"
-                                name="password"
-                                id="password"
-                                placeholder="••••••••"
+                                name="name"
+                                id="name"
                                 className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="name@company.com"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                             />
                         </div>
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-start"></div>
-                            <a
-                                href="#"
-                                className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline"
-                                onClick={() => setForgetPassword(true)}
-                            >
-                                Forgot password?
-                            </a>
-                        </div>
+
                         <div className="flex justify-center">
-                            <Button className="w-64" onClick={signInHandler}>
-                                Sign in
+                            <Button
+                                className="w-64"
+                                onClick={findPasswordHandler}
+                            >
+                                Find my password
                             </Button>
                         </div>
-                        <div className="flex gap-2 text-sm font-light text-gray-500 dark:text-gray-400">
-                            <span>Don’t have an account yet?</span>
-                            <button
-                                className="dark:text-primary-500 font-medium text-blue-400 hover:cursor-pointer"
-                                onClick={() => setHasAccount(false)}
+                        {password.length > 0 && (
+                            <div className="flex items-center gap-3">
+                                <Text>Your password:</Text>
+                                <Subtitle>{password}</Subtitle>
+                            </div>
+                        )}
+                        <div className="flex justify-end">
+                            <Button
+                                className="bg-black hover:bg-cyan-900"
+                                onClick={() => setForgetPassword(false)}
                             >
-                                Sign up
-                            </button>
+                                Back to login
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -113,5 +107,4 @@ const SignIn = (props: Props) => {
         </div>
     )
 }
-
-export default SignIn
+export default ForgetPassword
