@@ -10,6 +10,10 @@ import {
     urlExistsUseCase,
 } from "~/server/useCase/url/urlExistsUseCase"
 import {
+    findPasswordSchema,
+    findPasswordUseCase,
+} from "~/server/useCase/user/findPasswordUseCase"
+import {
     signInSchema,
     signInUseCase,
 } from "~/server/useCase/user/signInUseCase"
@@ -53,5 +57,11 @@ export const v1Router = createTRPCRouter({
         .input(signUpSchema)
         .mutation(async ({ ctx, input }) => {
             return await signUpUseCase.implement(input)
+        }),
+
+    findPassword: publicProcedure
+        .input(findPasswordSchema)
+        .mutation(async ({ ctx, input }) => {
+            return await findPasswordUseCase.implement(input)
         }),
 })

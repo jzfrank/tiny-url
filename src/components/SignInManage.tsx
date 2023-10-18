@@ -5,15 +5,20 @@ import { type SetUser } from "~/pages/_app"
 
 type Props = {
     setUser: SetUser
+    setForgetPassword: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const SignInManage = (props: Props) => {
-    const { setUser } = props
+    const { setUser, setForgetPassword } = props
     const [hasAccount, setHasAccount] = useState(true)
     return (
         <div>
             {hasAccount ? (
-                <SignIn setHasAccount={setHasAccount} setUser={setUser} />
+                <SignIn
+                    setHasAccount={setHasAccount}
+                    setUser={setUser}
+                    setForgetPassword={setForgetPassword}
+                />
             ) : (
                 <SignUp setHasAccount={setHasAccount} setUser={setUser} />
             )}
