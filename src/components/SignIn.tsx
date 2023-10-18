@@ -4,6 +4,7 @@ import { toast } from "react-toastify"
 import { EitherType } from "~/common/Either"
 import { SetUser } from "~/pages/_app"
 import { api } from "~/utils/api"
+import { useSession, signIn as signInNextAuth, signOut } from "next-auth/react"
 
 type Props = {
     setUser: SetUser
@@ -92,8 +93,17 @@ const SignIn = (props: Props) => {
                             </a>
                         </div>
                         <div className="flex justify-center">
-                            <Button className="w-64" onClick={signInHandler}>
+                            <Button className="w-48" onClick={signInHandler}>
                                 Sign in
+                            </Button>
+                        </div>
+
+                        <div className="flex justify-center ">
+                            <Button
+                                className="w-48 bg-black hover:bg-cyan-950"
+                                onClick={() => void signInNextAuth()}
+                            >
+                                Sign in with Google
                             </Button>
                         </div>
                         <div className="flex gap-2 text-sm font-light text-gray-500 dark:text-gray-400">

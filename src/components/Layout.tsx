@@ -1,5 +1,6 @@
 import { Text } from "@tremor/react"
-import { useContext } from "react"
+import { useSession } from "next-auth/react"
+import { useContext, useEffect } from "react"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { DEFAULT_USER, UserContext } from "~/pages/_app"
@@ -9,7 +10,19 @@ export default function Layout({
 }: {
     children: React.ReactNode
 }) {
+    const { data: session } = useSession()
+    console.log({ session })
     const { user, setUser } = useContext(UserContext)
+    useEffect(() => {
+        if (session) {
+            setUser({
+                isLogin: session?.user?.email ? true : false,
+                email: session?.user?.email ?? "",
+                name: session?.user?.name ?? "",
+            })
+        }
+    }, [session])
+
     return (
         <>
             <section className="h-screen bg-gray-50 dark:bg-gray-900">
@@ -38,9 +51,9 @@ export default function Layout({
                                 >
                                     <path
                                         stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
                                         d="M1 1h15M1 7h15M1 13h15"
                                     />
                                 </svg>

@@ -1,10 +1,10 @@
-import { type AppType } from "next/app"
-
+import { type AppProps, type AppType } from "next/app"
 import { api } from "~/utils/api"
-
 import "~/styles/globals.css"
 import Layout from "~/components/Layout"
 import { createContext, useState } from "react"
+import { SessionProvider, useSession } from "next-auth/react"
+import { Session } from "next-auth"
 
 export type User = {
     isLogin: boolean
@@ -34,15 +34,20 @@ const DEFAULT_USER_CONTEXT: UserContextType = {
 
 export const UserContext = createContext(DEFAULT_USER_CONTEXT)
 
-const MyApp: AppType = ({ Component, pageProps }) => {
+const MyApp: AppType<{ session: Session | null }> = ({
+    Component,
+    pageProps: { session, ...pageProps },
+}) => {
     const [user, setUser] = useState(DEFAULT_USER)
 
     return (
-        <UserContext.Provider value={{ user, setUser }}>
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
-        </UserContext.Provider>
+        <SessionProvider session={session}>
+            <UserContext.Provider value={{ user, setUser }}>
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
+            </UserContext.Provider>
+        </SessionProvider>
     )
 }
 
