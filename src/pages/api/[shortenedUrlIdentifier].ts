@@ -9,6 +9,7 @@ const querySchema = z.object({
 
 const RediectHandler: NextApiHandler = async (req, res) => {
     const valid = querySchema.safeParse(req.query)
+
     if (!valid.success) {
         return res.status(400).json({
             success: false,

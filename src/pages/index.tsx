@@ -1,27 +1,31 @@
-import { useContext, useState } from "react"
-import { UserContext } from "./_app"
-import SignInManage from "~/components/SignInManage"
+import { signIn, signOut, useSession } from "next-auth/react"
 import ShortenService from "~/components/ShortenService"
-import ForgetPassword from "~/components/ForgetPassword"
 
 export default function Home() {
-    const { user, setUser } = useContext(UserContext)
-    const [forgetPassword, setForgetPassword] = useState(false)
+    const { data: session } = useSession()
 
     return (
         <>
-            {forgetPassword && (
-                <ForgetPassword setForgetPassword={setForgetPassword} />
-            )}
-            {!forgetPassword &&
-                (!user.isLogin ? (
-                    <SignInManage
-                        setUser={setUser}
-                        setForgetPassword={setForgetPassword}
-                    />
-                ) : (
+            {session ? (
+                <>
                     <ShortenService />
-                ))}
+                    <button
+                        className="border-1 bg-red-400 hover:bg-red-300 p-1 border-black rounded-md"
+                        onClick={() => void signOut()}
+                    >
+                        Sign out
+                    </button>
+                </>
+            ) : (
+                <>
+                    <button
+                        className="border-1 bg-blue-400 hover:bg-blue-300 p-1 border-black rounded-md"
+                        onClick={() => void signIn()}
+                    >
+                        Sign in
+                    </button>
+                </>
+            )}
         </>
     )
 }
