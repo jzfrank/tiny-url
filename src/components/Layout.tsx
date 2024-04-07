@@ -1,5 +1,5 @@
 import { Text } from "@tremor/react"
-import { useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import { useContext } from "react"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -18,9 +18,12 @@ export default function Layout({
                 <nav className="border-gray-200 bg-white dark:bg-gray-900">
                     <div className="flex flex-wrap justify-between items-center mx-auto p-4 max-w-screen-xl">
                         <div className="flex items-center gap-3">
-                            <span className="font-bold text-2xl dark:text-white whitespace-nowrap self-center">
+                            <a
+                                className="font-bold text-2xl dark:text-white whitespace-nowrap self-center"
+                                href="#"
+                            >
                                 TinyRedirect
-                            </span>
+                            </a>
                         </div>
                         <div className="flex items-center gap-8">
                             <button
@@ -51,7 +54,7 @@ export default function Layout({
                                 className="md:block hidden w-full md:w-auto"
                                 id="navbar-default"
                             >
-                                <ul className="flex md:flex-row flex-col md:space-x-8 border-gray-100 md:border-0 dark:border-gray-700 bg-gray-50 md:bg-white md:dark:bg-gray-900 dark:bg-gray-800 mt-4 md:mt-0 p-4 md:p-0 border rounded-lg font-medium">
+                                <ul className="flex md:flex-row flex-col items-center md:space-x-8 border-gray-100 md:border-0 dark:border-gray-700 bg-gray-50 md:bg-white md:dark:bg-gray-900 dark:bg-gray-800 mt-4 md:mt-0 p-4 md:p-0 border rounded-lg font-medium">
                                     <li>
                                         <a
                                             href="#"
@@ -76,6 +79,16 @@ export default function Layout({
                                             Contact
                                         </a>
                                     </li>
+                                    {session && (
+                                        <li>
+                                            <button
+                                                onClick={() => void signOut()}
+                                                className="block bg-red-400 hover:bg-red-500 dark:hover:bg-gray-700 px-2 p-1 rounded text-white"
+                                            >
+                                                Sign Out
+                                            </button>
+                                        </li>
+                                    )}
                                 </ul>
                             </div>
                             <div className="flex flex-col items-start">

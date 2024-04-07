@@ -1,3 +1,5 @@
+import { getUrl } from "@trpc/client/dist/links/internals/httpUtils"
+import { get } from "http"
 import { z } from "zod"
 
 import {
@@ -9,6 +11,10 @@ import {
     createUrlSchema,
     createUrlUseCase,
 } from "~/server/useCase/url/createUrlUseCase"
+import {
+    getUrlsSchema,
+    getUrlsUseCase,
+} from "~/server/useCase/url/getUrlsUseCase"
 import {
     urlExistsSchema,
     urlExistsUseCase,
@@ -41,4 +47,10 @@ export const v1Router = createTRPCRouter({
                 auth: { user: ctx.session.user },
             })
         }),
+
+    getUrls: protectedProcedure.query(async ({ ctx }) => {
+        return await getUrlsUseCase.implement({
+            auth: { user: ctx.session.user },
+        })
+    }),
 })

@@ -19,7 +19,6 @@ const ShortenService = () => {
         onSuccess: (data) => {
             switch (data.type) {
                 case EitherType.ok:
-                    toast.success("Successfully created URL mapping")
                     if (data.ok.created) {
                         toast.success("Successfully created URL mapping")
                     } else {
@@ -50,10 +49,10 @@ const ShortenService = () => {
     )
 
     return (
-        <div className="mt-36">
-            <div className="w-full rounded-lg  bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0">
-                <div className="mx-10 mb-6 mt-10 flex flex-col items-center gap-5 pt-5">
-                    <div className="flex w-96 flex-col items-start gap-3">
+        <div className="">
+            <div className="dark:border-gray-700 bg-white dark:bg-gray-800 shadow md:mt-0 xl:p-0 dark:border rounded-lg w-full sm:max-w-md">
+                <div className="flex flex-col items-center gap-5 mx-10 mb-6 pt-5">
+                    <div className="flex flex-col items-start gap-3 w-96">
                         <div className="flex items-end gap-3">
                             <div>
                                 <Text>Enter a URL to shorten:</Text>
@@ -67,7 +66,7 @@ const ShortenService = () => {
                             </div>
                         </div>
                         <div>
-                            <div className="mb-4 flex items-center">
+                            <div className="flex items-center mb-4">
                                 <input
                                     id="default-radio-1"
                                     type="radio"
@@ -77,11 +76,11 @@ const ShortenService = () => {
                                     }
                                     value=""
                                     name="default-radio"
-                                    className="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600  dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 "
+                                    className="border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 w-4 h-4 text-blue-600 dark:ring-offset-gray-800"
                                 />
                                 <label
                                     htmlFor="default-radio-1"
-                                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                    className="ml-2 font-medium text-gray-900 text-sm dark:text-gray-300"
                                 >
                                     Randomly Generate Short URL
                                 </label>
@@ -96,11 +95,11 @@ const ShortenService = () => {
                                     type="radio"
                                     value=""
                                     name="default-radio"
-                                    className="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600  dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 "
+                                    className="border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 w-4 h-4 text-blue-600 dark:ring-offset-gray-800"
                                 />
                                 <label
                                     htmlFor="default-radio-2"
-                                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                    className="ml-2 font-medium text-gray-900 text-sm dark:text-gray-300"
                                 >
                                     Generate Short URL with Custom Identifier
                                 </label>
