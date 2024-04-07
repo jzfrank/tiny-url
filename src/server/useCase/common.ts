@@ -4,7 +4,15 @@ export type ApiErrorResponse<T> = {
     type: T
     message: string
 }
-export type UseCaseProps<T> = T
+export type UseCaseProps<T> = T & AuthProps
+
+export type AuthProps = {
+    auth: {
+        user: {
+            id: string
+        }
+    }
+}
 
 export abstract class BaseUseCase<TIn, TOut, TErrors> {
     abstract implement(

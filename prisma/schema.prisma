@@ -11,20 +11,12 @@ datasource db {
     relationMode = "prisma"
 }
 
-// model User {
-//     id       String @id @default(uuid())
-//     name     String
-//     email    String @unique
-//     password String
-//     Url      Url[]
-// }
-
 model Url {
     id           String  @id @default(uuid())
     url          String  @db.LongText
     shortenedUrl String  @unique
-    userId       String?
-    user         User?   @relation(fields: [userId], references: [id])
+    userId       String
+    user         User   @relation(fields: [userId], references: [id])
 }
 
 // Necessary for Next auth

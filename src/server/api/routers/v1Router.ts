@@ -1,6 +1,10 @@
 import { z } from "zod"
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
+import {
+    createTRPCRouter,
+    protectedProcedure,
+    publicProcedure,
+} from "~/server/api/trpc"
 import {
     createUrlSchema,
     createUrlUseCase,
@@ -17,21 +21,24 @@ export const v1Router = createTRPCRouter({
         }
     }),
 
-    urlExists: publicProcedure
+    urlExists: protectedProcedure
         .input(urlExistsSchema)
         .query(async ({ ctx, input }) => {
             return await urlExistsUseCase.implement(input)
         }),
 
-    urlExistsMutation: publicProcedure
+    urlExistsMutation: protectedProcedure
         .input(urlExistsSchema)
         .mutation(async ({ ctx, input }) => {
             return await urlExistsUseCase.implement(input)
         }),
 
-    createUrl: publicProcedure
+    createUrl: protectedProcedure
         .input(createUrlSchema)
         .mutation(async ({ ctx, input }) => {
-            return await createUrlUseCase.implement(input)
+            return await createUrlUseCase.implement({
+                ...input,
+                auth: { user: ctx.session.user },
+            })
         }),
 })

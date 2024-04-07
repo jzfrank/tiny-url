@@ -1,5 +1,10 @@
-import { literal, z } from "zod"
-import { type ApiErrorResponse, type BaseErrors, BaseUseCase } from "../common"
+import { z } from "zod"
+import {
+    type ApiErrorResponse,
+    type BaseErrors,
+    BaseUseCase,
+    type UseCaseProps,
+} from "../common"
 import { type Either, EitherType } from "~/common/Either"
 import { prisma } from "~/server/db"
 import { type Url } from "@prisma/client"
@@ -25,7 +30,7 @@ class CreateUrlUseCase extends BaseUseCase<
     BaseErrors
 > {
     async implement(
-        props: CreateUrlRequest
+        props: UseCaseProps<CreateUrlRequest>
     ): Promise<Either<ApiErrorResponse<BaseErrors>, CreateUrlResponse>> {
         const { fromUrl, useCustomUrl, toCustomUrl } = props
         if (!isValidUrl(fromUrl)) {
@@ -67,6 +72,7 @@ class CreateUrlUseCase extends BaseUseCase<
                 data: {
                     url: fromUrl,
                     shortenedUrl: toCustomUrl,
+                    userId: props.auth.user.id,
                 },
             })
             if (url) {
@@ -95,6 +101,7 @@ class CreateUrlUseCase extends BaseUseCase<
                         data: {
                             url: fromUrl,
                             shortenedUrl: shortendUrlId,
+                            userId: props.auth.user.id,
                         },
                     })
                     if (url) {
